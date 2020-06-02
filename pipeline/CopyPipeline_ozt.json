@@ -1,0 +1,124 @@
+{
+	"name": "CopyPipeline_ozt",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_ozt",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "dbo.Customer"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.Customer"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"isolationLevel": "ReadCommitted"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "linkedServiceDes",
+							"type": "LinkedServiceReference"
+						}
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CustomerKey",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CustomerKey",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CustomerName",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CustomerName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CustomerAddress",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CustomerAddress",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CustomerPhone",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CustomerPhone",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CreatedDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "CreatedDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "ModifiedDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "ModifiedDate",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_ozt",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_ozt",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
