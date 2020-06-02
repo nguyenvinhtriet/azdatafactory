@@ -10,18 +10,18 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1"
-				},
-				{
-					"dataset": {
-						"referenceName": "DestinationDataset_ozt",
-						"type": "DatasetReference"
-					},
-					"name": "source2"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
-			"script": "source(output(\n\t\tCustomerKey as integer,\n\t\tCustomerName as string,\n\t\tCustomerAddress as string,\n\t\tCustomerPhone as string,\n\t\tCreatedDate as timestamp,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource(output(\n\t\tCustomerKey as integer,\n\t\tCustomerName as string,\n\t\tCustomerAddress as string,\n\t\tCustomerPhone as string,\n\t\tCreatedDate as timestamp,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source2"
+			"transformations": [
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\tCustomerKey as integer,\n\t\tCustomerName as string,\n\t\tCustomerAddress as string,\n\t\tCustomerPhone as string,\n\t\tCreatedDate as timestamp,\n\t\tModifiedDate as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 filter(CustomerKey < 3) ~> Filter1\nFilter1 select(mapColumn(\n\t\tCustomerKey,\n\t\tCustomerName,\n\t\tCustomerAddress,\n\t\tCustomerPhone\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1"
 		}
 	}
 }
